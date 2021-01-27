@@ -9,31 +9,31 @@ import tempfile
 import os
 
 
-sg.theme('DarkBlue9')
+sg.theme('DarkBlue9')                                                               #this is theme. using PySimpleGUI. 
 # This design pattern simulates button callbacks
 # This implementation uses a simple "Dispatch Dictionary" to store events and functions
 
 # The callback functions
-version = {'1.2.3.2 Public Beta'}
+version = {'1.2.3.2 Public Beta'}   #never used. 
 
-def button1():
-    path = easygui.fileopenbox(default="HOME/Downloads/*.xlsx", filetypes='*.xlsx')
-    try:
+def button1():                                                                      #one of another button. 
+    path = easygui.fileopenbox(default="HOME/Downloads/*.xlsx", filetypes='*.xlsx') #use EasyGUI for easy FileOpenBox(i like it)
+    try:                                                                            #exception error test
         workbook = openpyxl.load_workbook(path)
     except Exception as e:
         try:
             workbook = openpyxl.load_workbook(path)
         except Exception as e:
-            sg.popup_auto_close('не выбран файл!')
-            sg.popup_ok(e)
-            workbook = None
+            sg.popup_auto_close('не выбран файл!')                                  #Error Text. Exp: sg.popup_auto_close('NO FILE SELECTED!')
+            sg.popup_ok(e)                                                          #Error text from core EasyGUI FileOpenBox.
+            workbook = None                                                         #This make Stop run code in button1() when exception error appear 
         return (workbook)
-    #path = easygui.fileopenbox(default= '*.xlsx', filetypes= '*.xlsx')
-    path2 = easygui.filesavebox(default="HOME/APPDATA/RPBeta/Egoryevsk.xlsx", filetypes='*.xslx')
-    #workbook = openpyxl.load_workbook(path)
-    worksheet = workbook["Лист 1"]
-    filetypes = ['*.xlsx', "Excel"]
-    default = '*'
+    #path = easygui.fileopenbox(default= '*.xlsx', filetypes= '*.xlsx')             #non usefull path.
+    path2 = easygui.filesavebox(default="HOME/APPDATA/RPBeta/Egoryevsk.xlsx", filetypes='*.xslx') #this is a useful path. remembers the last selected file 
+    #workbook = openpyxl.load_workbook(path)                                                      # and uses the same path to save.
+    worksheet = workbook["Лист 1"]                                                                #standart RU Excel sheet name. My target worksheet making from "Maatwebsite".
+    filetypes = ['*.xlsx', "Excel"]                                                 #this make chouse in file dialog windows. '*.xlsx' - its file extension
+    default = '*'                                                                   #"Excel" - its what say windows file dialog what program work with this file.
     worksheet.unmerge_cells('A1:P1')
     worksheet.unmerge_cells('A2:P2')
     worksheet.unmerge_cells('A3:P3')
@@ -76,9 +76,9 @@ def button1():
                                                       "187", "188", "189", "190", "193", "194", "678", "1853", "1855",\
                                                       "2102", "2600", "3252", "3253", "3254", "179*"])
     workbook.save(path2)
-    sg.popup_ok('Файл готов!')
+    sg.popup_ok('Файл готов!')                                                                  #exp: sg.popup_ok('All is done!')
 
-def button2():
+def button2():                                                                                  #identical button like button1()
     path = easygui.fileopenbox(default="HOME/Downloads/*.xlsx", filetypes='*.xlsx')
     try:
         workbook = openpyxl.load_workbook(path)
@@ -142,7 +142,7 @@ def button2():
     workbook.save(path2)
     sg.popup_ok('Файл готов!')
 
-def button3():
+def button3():                                                                                  #identical button like button1()
     path = easygui.fileopenbox(default="HOME/Downloads/*.xlsx", filetypes='*.xlsx')
     try:
         workbook = openpyxl.load_workbook(path)
@@ -207,7 +207,7 @@ def button3():
     workbook.save(path2)
     sg.popup_ok('Файл готов!')
 
-def button4():
+def button4():                                                                                  #NON identical button like button1().
     path = easygui.fileopenbox(default="HOME/Downloads/*.xlsx", filetypes='*.xlsx')
     try:
         workbook = openpyxl.load_workbook(path)
@@ -271,9 +271,9 @@ def button4():
                                                       "187", "188", "189", "190", "193", "194", "678", "1853", "1855", \
                                                       "2102", "2600", "3252", "3253", "3254", "179*"])
 
-    source = workbook.active
+    source = workbook.active                                                        #here i work in multiple worksheets.
     target = workbook.copy_worksheet(source)
-    worksheet = workbook["Егорьевск Copy"]
+    worksheet = workbook["Егорьевск Copy"]                                          #I know the name in advance and get my own name.
     ws2 = worksheet.title = "Раменское"
     FullRange = "C6:" + get_column_letter(worksheet.max_column) \
     + str(worksheet.max_row)
@@ -308,7 +308,7 @@ def button4():
 
 
 def button5():
-    # рабочая кнопка для конвертации
+    # рабочая кнопка для конвертации/converting from xls to xlsx.
     size = (50, 3)
     auto_size_button = True
     path = easygui.fileopenbox(default="HOME/Downloads/*.xls", filetypes='*.xls')
@@ -321,18 +321,18 @@ def button5():
         wb.SaveAs(fname + "x", FileFormat=51)  # FileFormat = 51 is for .xlsx extension
         wb.Close()
         excel.Application.Quit()
-        sg.popup_ok('сконвертировано')
+        sg.popup_ok('сконвертировано')      #converting done.
 #       temp.close()
     except Exception as e:
         try:
             wb = excel.Workbooks.Open(fname)
         except Exception as e:
-            sg.popup_ok(e)
-            sg.popup_ok('неудача')
+            sg.popup_ok(e)                  #error text from python win32.gencache.EnsureDispatch.
+            sg.popup_ok('неудача')          #error text.
             wb = None
             return (wb)
     finally:
-        sg.popup_ok('завершение') # задача при которой условия частично выполнены.
+        sg.popup_ok('завершение') # задача при которой условия частично выполнены./final state of button.
 
 
 def button6():
@@ -484,11 +484,11 @@ def button8():
     sg.popup_ok("принцесса в другом замке епта!")
 
 
-# кнопочки для проверки белого списка
+# кнопочки для проверки белого списка/dispatch test.
 dispatch_dictionary = {' Егорьевск ':button1, ' Раменское ':button2, ' Шатура ':button3, ' МАП4 ':button4, \
                        ' Конверт ':button5}#, 'сходы':button6, 'ТЕСТ конв':button7, 'ТЕСТ':button8}
 
-# кнопки для конкретно гуи
+# кнопки для конкретно гуи/gui layout.
 layout = [[sg.Text('Добро пожаловать!',  auto_size_text=True, justification='center', size=(34,2) )],
           [sg.Text('1.для начала cконвертируйте отчет РНИСа и сохраните его.', auto_size_text=True, justification='center', size=(34,0) )],
           [sg.Text('2. затем выбирайте какие листы создавать. Загрузите файл и затем сохраните.', auto_size_text=True, justification='center', size=(34,3) )],
@@ -509,7 +509,7 @@ layout = [[sg.Text('Добро пожаловать!',  auto_size_text=True, jus
           [sg.Quit(' Выход ', size=(6,2), pad=((230, 0), 3))]]
 
 # титульное окно
-window = sg.Window('RNISka Reports 1.2.3.2 Public Beta', layout)
+window = sg.Window('RNISka Reports 1.2.3.2 Public Beta', layout)    #best in windows7. in windows 10 not all text is shown.
 
 # белый список
 while True:
